@@ -1,0 +1,24 @@
+{
+    "name": "access-watch/access-watch",
+    "description": "A PHP library to log and analyse HTTP traffic using the Access Watch cloud service.",
+    "keywords": ["bouncer", "http", "analysis", "traffic", "log", "logging"],
+    "homepage": "https://github.com/access-watch/access-watch-php",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "François Hodierne",
+            "email": "francois@access.watch",
+            "homepage": "http://access.watch/",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php" : ">=5.3.9",
+        "bouncer/bouncer": "dev-master"
+    },
+    "autoload": {
+        "psr-4": {
+            "AccessWatch\\": "src"
+        }
+    }
+}

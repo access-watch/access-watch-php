@@ -1,0 +1,56 @@
+<?php
+
+/*
+ * This file is part of the Access Watch package.
+ *
+ * (c) François Hodierne <francois@access.watch>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+namespace AccessWatch\Profile;
+
+use Bouncer\Bouncer;
+use Bouncer\Profile\DefaultProfile;
+
+use AccessWatch\Analyzer\IdentityAnalyzer;
+use AccessWatch\Logger\HttpLogger;
+
+/**
+ * Set Up base configuration for the Access Watch class
+ *
+ * @author François Hodierne <francois@access.watch>
+ */
+class BaseProfile extends DefaultProfile
+{
+
+    protected $analyzer;
+
+    protected $logger;
+
+    public function __construct($params)
+    {
+        $this->analyzer = new IdentityAnalyzer($params);
+        $this->logger = new HttpLogger($params);
+    }
+
+    public function load(Bouncer $instance)
+    {
+        // Load Access Watch analyzer
+        $instance->registerAnalyzer('identity', array($this->analyzer, 'identityAnalyzer'));
+
+        // Load Default analyzers
+        $this->loadAnalyzers($instance);
+
+        // If no cache available, try to set up APC
+        $this->initCache($instance);
+
+        // If no logger available, try to setup Access Watch Logger
+        $logger = $instance->getLogger();
+        if (empty($logger)) {
+            $instance->setOptions(array('logger' => $this->logger));
+        }
+    }
+
+}

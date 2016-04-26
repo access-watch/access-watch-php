@@ -16,7 +16,7 @@ use Bouncer\Logger\BaseLogger;
 /**
  * Log Requests to the Access Watch Cloud Service using the HTTP protocol
  *
- * @author François Hodierne <francois@hodierne.net>
+ * @author François Hodierne <francois@access.watch>
  */
 class HttpLogger extends BaseLogger
 {

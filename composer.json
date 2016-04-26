@@ -1,7 +1,7 @@
 {
     "name": "access-watch/access-watch",
     "description": "A PHP library to log and analyse HTTP traffic using the Access Watch cloud service.",
-    "keywords": ["bouncer", "http", "analysis", "traffic", "log", "logging"],
+    "keywords": ["bouncer", "http", "request", "analysis", "traffic", "log", "logging"],
     "homepage": "https://github.com/access-watch/access-watch-php",
     "license": "MIT",
     "authors": [

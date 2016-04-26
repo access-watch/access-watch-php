@@ -1,6 +1,6 @@
 # Access Watch PHP library
 
-A PHP library to log and analyse HTTP traffic using the [Access Watch](http://access.watch/) cloud service.
+A PHP library to log and analyse HTTP requests using the [Access Watch](http://access.watch/) cloud service.
 
 Based on the more generic [Bouncer](https://github.com/znarf/bouncer) library.
 

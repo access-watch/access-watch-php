@@ -14,7 +14,7 @@
     ],
     "require": {
         "php" : ">=5.3.9",
-        "bouncer/bouncer": "dev-master"
+        "bouncer/bouncer": "~2.0.0"
     },
     "autoload": {
         "psr-4": {

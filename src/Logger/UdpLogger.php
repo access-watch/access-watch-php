@@ -21,18 +21,41 @@ use Bouncer\Logger\LogstashLogger;
 class UdpLogger extends LogstashLogger
 {
 
+    /**
+     * @var string
+     */
     protected $host = 'access.watch';
 
+    /**
+     * @var int
+     */
     protected $port = 5145;
 
+    /**
+     * @var string
+     */
     protected $protocol = 'udp';
 
+    /**
+     * @var string
+     */
     protected $channel = 'bouncer';
 
+    /**
+     * @var string
+     */
     protected $type = 'access_log';
 
+    /**
+     * @var string
+     */
     protected $key;
 
+    /**
+     * Constructor.
+     *
+     * @param array $params
+     */
     public function __construct($params = array())
     {
         if (isset($params['apiKey'])) {

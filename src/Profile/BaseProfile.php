@@ -25,16 +25,32 @@ use AccessWatch\Logger\HttpLogger;
 class BaseProfile extends DefaultProfile
 {
 
+    /**
+     * @var object
+     */
     protected $analyzer;
 
+    /**
+     * @var object
+     */
     protected $logger;
 
-    public function __construct($params)
+    /**
+     * Constructor.
+     *
+     * @param array $params
+     */
+    public function __construct($params = array())
     {
         $this->analyzer = new IdentityAnalyzer($params);
         $this->logger = new HttpLogger($params);
     }
 
+    /**
+     * Apply the profile to the Bouncer instance
+     *
+     * @param Bouncer $instance
+     */
     public function load(Bouncer $instance)
     {
         // Load Access Watch analyzer

@@ -21,12 +21,26 @@ use Bouncer\Logger\BaseLogger;
 class HttpLogger extends BaseLogger
 {
 
+    /**
+     * @var string
+     */
     protected $baseUrl = 'https://access.watch/api/1.0';
 
+    /**
+     * @var string
+     */
     protected $key;
 
+    /**
+     * @var object
+     */
     protected $httpClient;
 
+    /**
+     * Constructor.
+     *
+     * @param array $params
+     */
     public function __construct($params = array())
     {
         if (isset($params['baseUrl'])) {
@@ -40,6 +54,12 @@ class HttpLogger extends BaseLogger
         }
     }
 
+    /*
+     *
+     * @param string $apiKey
+     *
+     * @return object
+     */
     public function getHttpClient($apiKey)
     {
         if (empty($this->httpClient)) {

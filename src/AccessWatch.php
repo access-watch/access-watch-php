@@ -22,6 +22,8 @@ class AccessWatch extends Bouncer
 {
 
     /**
+     * Constructor.
+     *
      * @param array $options
      */
     public function __construct(array $options = array())

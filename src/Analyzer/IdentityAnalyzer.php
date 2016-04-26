@@ -19,13 +19,27 @@ namespace AccessWatch\Analyzer;
 class IdentityAnalyzer
 {
 
+    /**
+     * @var string
+     */
     protected $baseUrl = 'https://access.watch/api/1.0';
 
+    /**
+     * @var string
+     */
     protected $apiKey;
 
+    /**
+     * @var object
+     */
     protected $httpClient;
 
-    public function __construct($params)
+    /**
+     * Constructor.
+     *
+     * @param array $params
+     */
+    public function __construct($params = array())
     {
         if (isset($params['baseUrl'])) {
             $this->baseUrl = $params['baseUrl'];
@@ -38,6 +52,12 @@ class IdentityAnalyzer
         }
     }
 
+    /*
+     *
+     * @param string $apiKey
+     *
+     * @return object
+     */
     public function getHttpClient($apiKey = null)
     {
         if (empty($this->httpClient)) {
@@ -51,7 +71,7 @@ class IdentityAnalyzer
 
     /*
      *
-     * @param object
+     * @param object $identity
      *
      * @return object
      */

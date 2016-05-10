@@ -47,26 +47,25 @@ class BaseProfile extends DefaultProfile
     }
 
     /**
-     * Apply the profile to the Bouncer instance
-     *
-     * @param Bouncer $instance
+     * {@inheritDoc}
      */
-    public function load(Bouncer $instance)
+    public function loadAnalyzers(Bouncer $instance)
     {
+        parent::loadAnalyzers($instance);
+
         // Load Access Watch analyzer
         $instance->registerAnalyzer('identity', array($this->analyzer, 'identityAnalyzer'));
+    }
 
-        // Load Default analyzers
-        $this->loadAnalyzers($instance);
-
-        // If no cache available, try to set up APC
-        $this->initCache($instance);
-
+    /**
+     * {@inheritDoc}
+     */
+    public function initLogger(Bouncer $instance)
+    {
         // If no logger available, try to setup Access Watch Logger
         $logger = $instance->getLogger();
         if (empty($logger)) {
             $instance->setOptions(array('logger' => $this->logger));
         }
     }
-
 }

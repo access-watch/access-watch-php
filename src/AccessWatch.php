@@ -34,7 +34,7 @@ class AccessWatch extends Bouncer
         $options = array_diff_key($options, $profileOptions);
 
         if (empty($options['profile'])) {
-          $options['profile'] = new \AccessWatch\Profile\BaseProfile($profileOptions);
+            $options['profile'] = new \AccessWatch\Profile\BaseProfile($profileOptions);
         }
 
         parent::__construct($options);

@@ -77,12 +77,19 @@ class IdentityAnalyzer
      */
     public function identityAnalyzer($identity)
     {
+        $request = array(
+            'address' => $identity->getAddress()->getValue(),
+            'headers' => $identity->getHeaders(),
+        );
+
+        $session = $identity->getSession();
+        if ($session) {
+            $request['session'] = $session->getId();
+        }
+
         $result = $this->getHttpClient($this->apiKey)->post(
             "{$this->baseUrl}/session",
-            array(
-                'address' => $identity->getAddress()->getValue(),
-                'headers' => $identity->getHeaders(),
-            )
+            $request
         );
 
         if (isset($result['identity']) && is_array($result['identity'])) {

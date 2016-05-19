@@ -29,7 +29,7 @@ class UdpLogger extends LogstashLogger
     /**
      * @var int
      */
-    protected $port = 5145;
+    protected $port = 5354;
 
     /**
      * @var string
@@ -39,7 +39,7 @@ class UdpLogger extends LogstashLogger
     /**
      * @var string
      */
-    protected $channel = 'bouncer';
+    protected $channel = 'access_watch';
 
     /**
      * @var string

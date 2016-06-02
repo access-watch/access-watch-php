@@ -50,7 +50,8 @@ class LoggerTest extends \PHPUnit_Framework_TestCase
 
         $bouncer = $this->getBouncer($request);
         $logger = new \AccessWatch\Logger\UdpLogger(array(
-            'apiKey' => 'b3bb90d61e80e96259bf354fd7cb03d7'
+            'apiKey'  => 'b3bb90d61e80e96259bf354fd7cb03d7',
+            'siteUrl' => 'https://github.com/access-watch/access-watch-php',
         ));
         $bouncer->setOptions(array('logger' => $logger));
 
@@ -63,7 +64,8 @@ class LoggerTest extends \PHPUnit_Framework_TestCase
 
         $bouncer = $this->getBouncer($request);
         $logger = new \AccessWatch\Logger\HttpLogger(array(
-            'apiKey' => 'b3bb90d61e80e96259bf354fd7cb03d7'
+            'apiKey'  => 'b3bb90d61e80e96259bf354fd7cb03d7',
+            'siteUrl' => 'https://github.com/access-watch/access-watch-php',
         ));
         $bouncer->setOptions(array('logger' => $logger));
 

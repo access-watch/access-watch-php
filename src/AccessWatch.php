@@ -28,9 +28,11 @@ class AccessWatch extends Bouncer
      */
     public function __construct(array $options = array())
     {
-        $profileKeys = array('baseUrl', 'apiKey', 'httpClient');
+        // Filter Profile Options
+        $profileKeys = array('baseUrl', 'apiKey', 'siteUrl', 'httpClient');
         $profileOptions = array_intersect_key($options, array_flip($profileKeys));
 
+        // Everything but Profile Options
         $options = array_diff_key($options, $profileOptions);
 
         if (empty($options['profile'])) {

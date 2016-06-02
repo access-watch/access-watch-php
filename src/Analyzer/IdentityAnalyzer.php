@@ -30,6 +30,11 @@ class IdentityAnalyzer
     protected $apiKey;
 
     /**
+     * @var string
+     */
+    protected $siteUrl;
+
+    /**
      * @var object
      */
     protected $httpClient;
@@ -47,25 +52,31 @@ class IdentityAnalyzer
         if (isset($params['apiKey'])) {
             $this->apiKey = $params['apiKey'];
         }
+        if (isset($params['siteUrl'])) {
+            $this->siteUrl = $params['siteUrl'];
+        }
         if (isset($params['httpClient'])) {
             $this->httpClient = $params['httpClient'];
         }
     }
 
     /*
-     *
-     * @param string $apiKey
-     *
      * @return object
      */
-    public function getHttpClient($apiKey = null)
+    public function getHttpClient()
     {
         if (empty($this->httpClient)) {
-            $this->httpClient = new \Bouncer\Http\SimpleClient($apiKey);
+            $this->httpClient = new \Bouncer\Http\SimpleClient();
         }
-        if ($apiKey) {
-            $this->httpClient->setApiKey($apiKey);
+
+        if ($this->apiKey) {
+            $this->httpClient->setApiKey($this->apiKey);
         }
+
+        if ($this->siteUrl) {
+            $this->httpClient->setSiteUrl($this->siteUrl);
+        }
+
         return $this->httpClient;
     }
 
@@ -87,7 +98,7 @@ class IdentityAnalyzer
             $request['session'] = $session->getId();
         }
 
-        $result = $this->getHttpClient($this->apiKey)->post(
+        $result = $this->getHttpClient()->post(
             "{$this->baseUrl}/session",
             $request
         );

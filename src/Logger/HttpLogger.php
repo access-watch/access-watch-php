@@ -29,7 +29,12 @@ class HttpLogger extends BaseLogger
     /**
      * @var string
      */
-    protected $key;
+    protected $apiKey;
+
+    /**
+     * @var string
+     */
+    protected $siteUrl;
 
     /**
      * @var object
@@ -47,7 +52,10 @@ class HttpLogger extends BaseLogger
             $this->baseUrl = $params['baseUrl'];
         }
         if (isset($params['apiKey'])) {
-            $this->key = $params['apiKey'];
+            $this->apiKey = $params['apiKey'];
+        }
+        if (isset($params['siteUrl'])) {
+            $this->siteUrl = $params['siteUrl'];
         }
         if (isset($params['httpClient'])) {
             $this->httpClient = $params['httpClient'];
@@ -55,19 +63,22 @@ class HttpLogger extends BaseLogger
     }
 
     /*
-     *
-     * @param string $apiKey
-     *
      * @return object
      */
-    public function getHttpClient($apiKey)
+    public function getHttpClient()
     {
         if (empty($this->httpClient)) {
             $this->httpClient = new \Bouncer\Http\SimpleClient();
         }
-        if ($apiKey) {
-            $this->httpClient->setApiKey($apiKey);
+
+        if ($this->apiKey) {
+            $this->httpClient->setApiKey($this->apiKey);
         }
+
+        if ($this->siteUrl) {
+            $this->httpClient->setSiteUrl($this->siteUrl);
+        }
+
         return $this->httpClient;
     }
 
@@ -78,7 +89,7 @@ class HttpLogger extends BaseLogger
     {
         $entry = $this->format($logEntry);
 
-        $result = $this->getHttpClient($this->key)->post("{$this->baseUrl}/log", $entry);
+        $result = $this->getHttpClient()->post("{$this->baseUrl}/log", $entry);
 
         if (!$result) {
             error_log("Error while logging to Http endpoint: {$this->baseUrl}/log");

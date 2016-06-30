@@ -76,7 +76,7 @@ class AccessWatch extends Bouncer
             $this->block();
         }
 
-        if ($identity()->getAgentName() == 'accesswatch' && $identity->isNice()) {
+        if ($identity->getAgentName() == 'accesswatch' && $identity->isNice()) {
             $this->feedback();
         }
     }

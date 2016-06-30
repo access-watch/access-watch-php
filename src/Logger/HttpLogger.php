@@ -11,6 +11,8 @@
 
 namespace AccessWatch\Logger;
 
+use AccessWatch\Exception;
+
 use Bouncer\Logger\BaseLogger;
 
 /**
@@ -22,64 +24,35 @@ class HttpLogger extends BaseLogger
 {
 
     /**
-     * @var string
-     */
-    protected $baseUrl = 'https://access.watch/api/1.0';
-
-    /**
-     * @var string
-     */
-    protected $apiKey;
-
-    /**
-     * @var string
-     */
-    protected $siteUrl;
-
-    /**
      * @var object
      */
-    protected $httpClient;
+    protected $apiClient;
 
     /**
      * Constructor.
      *
-     * @param array $params
+     * @param array $options
      */
-    public function __construct($params = array())
+    public function __construct($options = array())
     {
-        if (isset($params['baseUrl'])) {
-            $this->baseUrl = $params['baseUrl'];
+        if (isset($options['apiClient'])) {
+            $this->apiClient = $options['apiClient'];
         }
-        if (isset($params['apiKey'])) {
-            $this->apiKey = $params['apiKey'];
-        }
-        if (isset($params['siteUrl'])) {
-            $this->siteUrl = $params['siteUrl'];
-        }
-        if (isset($params['httpClient'])) {
-            $this->httpClient = $params['httpClient'];
+        elseif (isset($options['apiKey'])) {
+            $this->apiClient = new \AccessWatch\Api\ApiClient($options);
         }
     }
 
     /*
      * @return object
      */
-    public function getHttpClient()
+    public function getApiClient()
     {
-        if (empty($this->httpClient)) {
-            $this->httpClient = new \Bouncer\Http\SimpleClient();
+        if (empty($this->apiClient)) {
+            throw new Exception('No Api Client available.');
         }
 
-        if ($this->apiKey) {
-            $this->httpClient->setApiKey($this->apiKey);
-        }
-
-        if ($this->siteUrl) {
-            $this->httpClient->setSiteUrl($this->siteUrl);
-        }
-
-        return $this->httpClient;
+        return $this->apiClient;
     }
 
     /**
@@ -89,10 +62,6 @@ class HttpLogger extends BaseLogger
     {
         $entry = $this->format($logEntry);
 
-        $result = $this->getHttpClient()->post("{$this->baseUrl}/log", $entry);
-
-        if (!$result) {
-            error_log("Error while logging to Http endpoint: {$this->baseUrl}/log");
-        }
+        $this->getApiClient()->log($entry);
     }
 }

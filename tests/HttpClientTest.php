@@ -25,7 +25,7 @@ class HttpClientTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals(
           'Bouncer Http; https://github.com/access-watch/access-watch-php',
-          $accessWatch->getLogger()->getHttpClient()->getUserAgent()
+          $accessWatch->getApiClient()->getHttpClient()->getUserAgent()
         );
     }
 

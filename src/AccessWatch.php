@@ -22,24 +22,80 @@ class AccessWatch extends Bouncer
 {
 
     /**
-     * Constructor.
-     *
-     * @param array $options
+     * @var object
+     */
+    protected $apiClient;
+
+    /**
+     * {@inheritDoc}
      */
     public function __construct(array $options = array())
     {
-        // Filter Profile Options
-        $profileKeys = array('baseUrl', 'apiKey', 'siteUrl', 'httpClient');
-        $profileOptions = array_intersect_key($options, array_flip($profileKeys));
+        if (empty($options['apiClient'])) {
+            // Filter Api Client options
+            $apiClientKeys = array('baseUrl', 'apiKey', 'siteUrl', 'httpClient');
+            $apiClientOptions = array_intersect_key($options, array_flip($apiClientKeys));
+            $options['apiClient'] = new \AccessWatch\Api\ApiClient($apiClientOptions);
+        }
 
-        // Everything but Profile Options
-        $options = array_diff_key($options, $profileOptions);
+        $this->apiClient = $options['apiClient'];
 
         if (empty($options['profile'])) {
+            // Filter Profile options
+            $profileKeys = array('baseUrl', 'apiKey', 'siteUrl', 'apiClient');
+            $profileOptions = array_intersect_key($options, array_flip($profileKeys));
             $options['profile'] = new \AccessWatch\Profile\BaseProfile($profileOptions);
         }
 
         parent::__construct($options);
+    }
+
+    /*
+     * @return object
+     */
+    public function getApiClient()
+    {
+        if (empty($this->apiClient)) {
+            throw new Exception('No Api Client available.');
+        }
+
+        return $this->apiClient;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function start()
+    {
+        parent::start();
+
+        $identity = $this->getIdentity();
+        $session  = $identity->getSession();
+
+        if ($session->isBlocked()) {
+            $this->block();
+        }
+
+        if ($identity()->getAgentName() == 'accesswatch' && $identity->isNice()) {
+            $this->feedback();
+        }
+    }
+
+    public function feedback()
+    {
+        $request = $this->getRequest();
+        $action = $request->headers->get('Access-Watch-Action');
+        if ($action) {
+            switch ($action) {
+                case 'session-update':
+                    $sessionId = $request->headers->get('Access-Watch-Session');
+                    $identities = $this->getApiClient()->getSessionIdentities($sessionId);
+                    foreach ($identities as $identity) {
+                        $this->getCache()->deleteIdentity($identity['id']);
+                    }
+                    break;
+            }
+        }
     }
 
 }

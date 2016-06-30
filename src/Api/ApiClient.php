@@ -109,9 +109,12 @@ class ApiClient
      *
      * @return object
      */
-    public function getSessionIdentities(string $sessionId)
+    public function getSessionIdentities($sessionId)
     {
-        return $this->getHttpClient()->get("{$this->baseUrl}/session/{$sessionId}/identities");
+        $result = $this->getHttpClient()->get("{$this->baseUrl}/session/{$sessionId}/identities");
+        if (isset($result['identities'])) {
+            return $result['identities'];
+        }
     }
 
 }

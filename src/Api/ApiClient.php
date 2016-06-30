@@ -107,13 +107,24 @@ class ApiClient
     /**
      * @param string $sessionId
      *
-     * @return object
+     * @return array|null
      */
     public function getSessionIdentities($sessionId)
     {
         $result = $this->getHttpClient()->get("{$this->baseUrl}/session/{$sessionId}/identities");
         if (isset($result['identities'])) {
             return $result['identities'];
+        }
+    }
+
+    /**
+     * @return array|null
+     */
+    public function getRobots()
+    {
+        $result = $this->getHttpClient()->get("{$this->baseUrl}/robots");
+        if (isset($result['robots'])) {
+            return $result['robots'];
         }
     }
 

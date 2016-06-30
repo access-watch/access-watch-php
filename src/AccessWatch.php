@@ -70,14 +70,17 @@ class AccessWatch extends Bouncer
         parent::start();
 
         $identity = $this->getIdentity();
-        $session  = $identity->getSession();
 
-        if ($session->isBlocked()) {
-            $this->block();
-        }
+        if ($identity) {
 
-        if ($identity->getAgentName() == 'accesswatch' && $identity->isNice()) {
-            $this->feedback();
+            $session  = $identity->getSession();
+            if ($session && $session->isBlocked()) {
+                $this->block();
+            }
+
+            if ($identity->getAgentName() == 'accesswatch' && $identity->isNice()) {
+                $this->feedback();
+            }
         }
     }
 

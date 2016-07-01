@@ -84,6 +84,10 @@ class AccessWatch extends Bouncer
         $action = $request->headers->get('Access-Watch-Action');
         if ($action) {
             switch ($action) {
+                case 'identity-update':
+                    $identityId = $request->headers->get('Access-Watch-Identity');
+                    $this->getCache()->deleteIdentity($identityId);
+                    break;
                 case 'session-update':
                     $sessionId = $request->headers->get('Access-Watch-Session');
                     $identities = $this->getApiClient()->getSessionIdentities($sessionId);

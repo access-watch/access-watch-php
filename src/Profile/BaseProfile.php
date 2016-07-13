@@ -13,7 +13,6 @@ namespace AccessWatch\Profile;
 
 use Bouncer\Bouncer;
 use Bouncer\Profile\DefaultProfile;
-
 use AccessWatch\Analyzer\IdentityAnalyzer;
 use AccessWatch\Logger\HttpLogger;
 use AccessWatch\Logger\UdpLogger;
@@ -64,8 +63,7 @@ class BaseProfile extends DefaultProfile
             $configuration = $instance->getConfiguration();
             if (isset($configuration['logger']) && $configuration['logger'] === 'udp') {
                 $logger = new UdpLogger($this->params);
-            }
-            else {
+            } else {
                 $logger = new HttpLogger($this->params);
             }
             $instance->setOptions(array('logger' => $logger));

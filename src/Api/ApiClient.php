@@ -128,4 +128,12 @@ class ApiClient
         }
     }
 
+    /**
+     * @return array
+     */
+    public function getConfiguration()
+    {
+        return $this->getHttpClient()->get("{$this->baseUrl}/configuration");
+    }
+
 }

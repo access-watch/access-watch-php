@@ -78,6 +78,24 @@ class AccessWatch extends Bouncer
         }
     }
 
+    /**
+     * @return array
+     */
+    public function getConfiguration()
+    {
+        $cache = $this->getCache();
+        if ($cache) {
+            $configuration = $this->getCache()->get('access_watch_configuration');
+        }
+        if (empty($configuration)) {
+            $configuration = $this->getApiClient()->getConfiguration();
+            if ($cache) {
+                $this->getCache()->set('access_watch_configuration', $configuration, 86400);
+            }
+        }
+        return $configuration;
+    }
+
     public function feedback()
     {
         $request = $this->getRequest();
@@ -94,6 +112,9 @@ class AccessWatch extends Bouncer
                     foreach ($identities as $identity) {
                         $this->getCache()->deleteIdentity($identity['id']);
                     }
+                    break;
+                case 'configuration-update':
+                    $this->getCache()->delete('access_watch_configuration');
                     break;
             }
         }

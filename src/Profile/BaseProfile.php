@@ -16,6 +16,7 @@ use Bouncer\Profile\DefaultProfile;
 
 use AccessWatch\Analyzer\IdentityAnalyzer;
 use AccessWatch\Logger\HttpLogger;
+use AccessWatch\Logger\UdpLogger;
 
 /**
  * Set Up base configuration for the Access Watch class
@@ -26,14 +27,9 @@ class BaseProfile extends DefaultProfile
 {
 
     /**
-     * @var object
+     * @var array
      */
-    protected $analyzer;
-
-    /**
-     * @var object
-     */
-    protected $logger;
+    protected $params;
 
     /**
      * Constructor.
@@ -42,8 +38,7 @@ class BaseProfile extends DefaultProfile
      */
     public function __construct($params = array())
     {
-        $this->analyzer = new IdentityAnalyzer($params);
-        $this->logger = new HttpLogger($params);
+        $this->params = $params;
     }
 
     /**
@@ -54,7 +49,8 @@ class BaseProfile extends DefaultProfile
         parent::loadAnalyzers($instance);
 
         // Load Access Watch analyzer
-        $instance->registerAnalyzer('identity', array($this->analyzer, 'identityAnalyzer'));
+        $analyzer = new IdentityAnalyzer($this->params);
+        $instance->registerAnalyzer('identity', array($analyzer, 'identityAnalyzer'));
     }
 
     /**
@@ -65,7 +61,14 @@ class BaseProfile extends DefaultProfile
         // If no logger available, try to setup Access Watch Logger
         $logger = $instance->getLogger();
         if (empty($logger)) {
-            $instance->setOptions(array('logger' => $this->logger));
+            $configuration = $instance->getConfiguration();
+            if (isset($configuration['logger']) && $configuration['logger'] === 'udp') {
+                $logger = new UdpLogger($this->params);
+            }
+            else {
+                $logger = new HttpLogger($this->params);
+            }
+            $instance->setOptions(array('logger' => $logger));
         }
     }
 }

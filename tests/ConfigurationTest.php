@@ -35,9 +35,6 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
 
     public function testGetLogger()
     {
-        $this->markTestSkipped('Skip test for now.');
-        return;
-
         $accessWatch = $this->getAccessWatch();
 
         $logger = $accessWatch->getLogger();

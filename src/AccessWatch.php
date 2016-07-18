@@ -120,4 +120,38 @@ class AccessWatch extends Bouncer
         }
     }
 
+    /**
+     * @return array
+     */
+    public function getReferers($status = null)
+    {
+        $cache = $this->getCache();
+        $cacheKey = $status ? "access_watch_referers_{$status}" : "access_watch_referers";
+        if ($cache) {
+            $referers = $this->getCache()->get($cacheKey);
+        }
+
+        if (!isset($referers)) {
+            $referers = $this->getApiClient()->getReferers($status);
+            if ($cache) {
+                $this->getCache()->set($cacheKey, $referers, 3600);
+            }
+        }
+
+        return $referers;
+    }
+
+    public function blockRefererSpam()
+    {
+        $referer = (string)$this->getRequest()->getHeader('Referer');
+
+        if ($referer) {
+            $badReferers = $this->getReferers('bad');
+            if ($badReferers && in_array($referer, $badReferers)) {
+                $this->block('referer_spam_blocked');
+            }
+        }
+
+    }
+
 }

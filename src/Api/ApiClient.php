@@ -136,4 +136,16 @@ class ApiClient
         return $this->getHttpClient()->get("{$this->baseUrl}/configuration");
     }
 
+    /**
+     * @return array
+     */
+    public function getReferers($status = null)
+    {
+        $url = $status ? "{$this->baseUrl}/referers/{$status}" : "{$this->baseUrl}/referers";
+
+        $result = $this->getHttpClient()->get($url);
+
+        return isset($result['referers']) ? $result['referers'] : array();
+    }
+
 }

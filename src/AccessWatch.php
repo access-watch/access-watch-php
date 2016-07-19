@@ -134,7 +134,7 @@ class AccessWatch extends Bouncer
             $referers = $this->getCache()->get($cacheKey);
         }
 
-        if (!isset($referers)) {
+        if (!isset($referers) || !is_array($referers)) {
             $referers = $this->getApiClient()->getReferers($status);
             if ($cache) {
                 $this->getCache()->set($cacheKey, $referers, 3600);
@@ -148,7 +148,7 @@ class AccessWatch extends Bouncer
     {
         $referer = (string) $this->getRequest()->getHeader('Referer');
 
-        if ($referer) {
+        if (!empty($referer)) {
             $badReferers = $this->getReferers('bad');
             if (!empty($badReferers) && in_array($referer, $badReferers)) {
                 $this->block('referer_spam_blocked');

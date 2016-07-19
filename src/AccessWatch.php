@@ -121,12 +121,15 @@ class AccessWatch extends Bouncer
     }
 
     /**
+     * @param string $status
+     *
      * @return array
      */
     public function getReferers($status = null)
     {
         $cache = $this->getCache();
         $cacheKey = $status ? "access_watch_referers_{$status}" : "access_watch_referers";
+
         if ($cache) {
             $referers = $this->getCache()->get($cacheKey);
         }
@@ -141,17 +144,16 @@ class AccessWatch extends Bouncer
         return $referers;
     }
 
-    public function blockRefererSpam()
+    public function blockBadReferers()
     {
-        $referer = (string)$this->getRequest()->getHeader('Referer');
+        $referer = (string) $this->getRequest()->getHeader('Referer');
 
         if ($referer) {
             $badReferers = $this->getReferers('bad');
-            if ($badReferers && in_array($referer, $badReferers)) {
+            if (!empty($badReferers) && in_array($referer, $badReferers)) {
                 $this->block('referer_spam_blocked');
             }
         }
-
     }
 
 }

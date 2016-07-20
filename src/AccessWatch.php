@@ -156,4 +156,17 @@ class AccessWatch extends Bouncer
         }
     }
 
+    public function blockBadSessions()
+    {
+        $identity = $this->getIdentity();
+
+        if ($identity) {
+            $session = $identity->getSession();
+
+            if ($session && $session->isBlocked()) {
+                $this->block('session_blocked');
+            }
+        }
+    }
+
 }

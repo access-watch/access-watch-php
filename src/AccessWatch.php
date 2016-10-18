@@ -116,6 +116,12 @@ class AccessWatch extends Bouncer
                 case 'configuration-update':
                     $this->getCache()->delete('access_watch_configuration');
                     break;
+                case 'cache-clean':
+                    $this->getCache()->clean();
+                    break;
+                case 'cache-flush':
+                    $this->getCache()->flush();
+                    break;
             }
         }
     }

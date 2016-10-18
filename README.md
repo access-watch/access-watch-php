@@ -34,7 +34,7 @@ $accessWatch->start();
 
 To properly operate, a cache backend needs to be defined. If no cache is set, the library will try to use APC/APCu.
 
-Check the documentation of the [Bouncer](https://github.com/znarf/bouncer) library for information about caching.
+Check the documentation of the [Bouncer](https://github.com/znarf/bouncer) library for more information about caching.
 
 ```php
 <?php

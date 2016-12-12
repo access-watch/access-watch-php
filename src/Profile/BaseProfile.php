@@ -60,12 +60,7 @@ class BaseProfile extends DefaultProfile
         // If no logger available, try to setup Access Watch Logger
         $logger = $instance->getLogger();
         if (empty($logger)) {
-            $configuration = $instance->getConfiguration();
-            if (isset($configuration['logger']) && $configuration['logger'] === 'udp') {
-                $logger = new UdpLogger($this->params);
-            } else {
-                $logger = new HttpLogger($this->params);
-            }
+            $logger = new HttpLogger($this->params);
             $instance->setOptions(array('logger' => $logger));
         }
     }

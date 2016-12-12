@@ -35,10 +35,11 @@ class LoggerTest extends \PHPUnit_Framework_TestCase
         return $request;
     }
 
-    public function getBouncer($request)
+    public function getBouncer($request, $logger)
     {
         $bouncer = new AccessWatch(array(
             'request' => $request,
+            'logger'  => $logger,
         ));
 
         return $bouncer;
@@ -48,12 +49,12 @@ class LoggerTest extends \PHPUnit_Framework_TestCase
     {
         $request = $this->getRequest();
 
-        $bouncer = $this->getBouncer($request);
         $logger = new \AccessWatch\Logger\UdpLogger(array(
             'apiKey'  => 'b3bb90d61e80e96259bf354fd7cb03d7',
             'siteUrl' => 'https://github.com/access-watch/access-watch-php',
         ));
-        $bouncer->setOptions(array('logger' => $logger));
+
+        $bouncer = $this->getBouncer($request, $logger);
 
         $bouncer->log();
     }
@@ -62,12 +63,12 @@ class LoggerTest extends \PHPUnit_Framework_TestCase
     {
         $request = $this->getRequest();
 
-        $bouncer = $this->getBouncer($request);
         $logger = new \AccessWatch\Logger\HttpLogger(array(
             'apiKey'  => 'b3bb90d61e80e96259bf354fd7cb03d7',
             'siteUrl' => 'https://github.com/access-watch/access-watch-php',
         ));
-        $bouncer->setOptions(array('logger' => $logger));
+
+        $bouncer = $this->getBouncer($request, $logger);
 
         $bouncer->log();
     }

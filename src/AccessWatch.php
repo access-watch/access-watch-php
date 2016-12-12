@@ -65,6 +65,21 @@ class AccessWatch extends Bouncer
     /**
      * {@inheritDoc}
      */
+    public function getRequest()
+    {
+        $request = parent::getRequest();
+
+        $configuration = $this->getConfiguration();
+        if (isset($configuration['trusted_proxies']) && is_array($configuration['trusted_proxies'])) {
+            $request->setTrustedProxies(array_merge(array('127.0.0.1'), $configuration['trusted_proxies']));
+        }
+
+        return $request;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function start()
     {
         parent::start();

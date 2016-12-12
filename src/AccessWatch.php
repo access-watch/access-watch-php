@@ -83,22 +83,6 @@ class AccessWatch extends Bouncer
     }
 
     /**
-     * {@inheritDoc}
-     */
-    public function start()
-    {
-        parent::start();
-
-        $identity = $this->getIdentity();
-
-        if ($identity) {
-            if ($identity->getAgentName() == 'accesswatch' && $identity->isNice()) {
-                $this->feedback();
-            }
-        }
-    }
-
-    /**
      * @return array|null
      */
     public function getConfiguration()

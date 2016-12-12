@@ -27,6 +27,11 @@ class AccessWatch extends Bouncer
     protected $apiClient;
 
     /**
+     * @var array
+     */
+    protected $configuration;
+
+    /**
      * {@inheritDoc}
      */
     public function __construct(array $options = array())
@@ -94,21 +99,32 @@ class AccessWatch extends Bouncer
     }
 
     /**
-     * @return array
+     * @return array|null
      */
     public function getConfiguration()
     {
+        // From local Cache
+        if (isset($this->configuration)) {
+            return $this->configuration;
+        }
+
+        // From Cache
         $cache = $this->getCache();
         if ($cache) {
-            $configuration = $this->getCache()->get('access_watch_configuration');
-        }
-        if (empty($configuration)) {
-            $configuration = $this->getApiClient()->getConfiguration();
-            if ($cache) {
-                $this->getCache()->set('access_watch_configuration', $configuration, 86400);
+            $configuration = $this->getCache()->get('configuration');
+            if ($configuration) {
+                return $this->configuration = $configuration;
             }
         }
-        return $configuration;
+
+        // From API
+        if ($this->ended === false) {
+            $configuration = $this->getApiClient()->getConfiguration();
+            if ($cache) {
+                $this->getCache()->set('configuration', $configuration, 86400);
+            }
+            return $this->configuration = $configuration;
+        }
     }
 
     public function feedback()

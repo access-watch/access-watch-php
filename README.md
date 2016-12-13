@@ -16,7 +16,9 @@ $ composer require access-watch/access-watch
 
 Start Access Watch as soon as possible in your codebase.
 
-You will need an API key for it. See http://access.watch/
+You will need an API key for it.
+
+To get an API key, send us an email at api@access.watch and we will come back to you.
 
 ```php
 <?php

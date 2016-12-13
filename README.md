@@ -32,7 +32,7 @@ $accessWatch->start();
 
 ## Cache
 
-To properly operate, a cache backend needs to be defined. If no cache is set, the library will try to use APC/APCu.
+Out of the basic logging scenario, to properly operate, a cache backend needs to be defined. If no cache is set, the library will try to use APC/APCu.
 
 Check the documentation of the [Bouncer](https://github.com/znarf/bouncer) library for more information about caching.
 

@@ -27,7 +27,7 @@ class ApiClient
     /**
      * @var string
      */
-    protected $logUrl = 'https://log.access.watch/1.1';
+    protected $logUrl = 'https://log.access.watch/1.1/log';
 
     /**
      * @var string

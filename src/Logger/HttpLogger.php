@@ -37,8 +37,7 @@ class HttpLogger extends BaseLogger
     {
         if (isset($options['apiClient'])) {
             $this->apiClient = $options['apiClient'];
-        }
-        elseif (isset($options['apiKey'])) {
+        } elseif (isset($options['apiKey'])) {
             $this->apiClient = new \AccessWatch\Api\ApiClient($options);
         }
     }

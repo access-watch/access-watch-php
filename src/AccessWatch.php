@@ -106,8 +106,7 @@ class AccessWatch extends Bouncer
             $configuration = $this->getApiClient()->getConfiguration();
             if ($cache) {
                 $this->getCache()->set('configuration', $configuration, 86400);
-            }
-            else {
+            } else {
                 $this->error('No cache available. Caching configuration is needed to keep performances acceptable.');
             }
             return $this->configuration = $configuration;

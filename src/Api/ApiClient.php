@@ -27,7 +27,7 @@ class ApiClient
     /**
      * @var string
      */
-    protected $logUrl = 'https://log.access.watch/1.1/log';
+    protected $baseLogUrl = 'https://log.access.watch/1.1';
 
     /**
      * @var string
@@ -54,8 +54,8 @@ class ApiClient
         if (isset($params['baseUrl'])) {
             $this->baseUrl = $params['baseUrl'];
         }
-        if (isset($params['logUrl'])) {
-            $this->logUrl = $params['logUrl'];
+        if (isset($params['baseLogUrl'])) {
+            $this->baseLogUrl = $params['baseLogUrl'];
         }
         if (isset($params['apiKey'])) {
             $this->apiKey = $params['apiKey'];
@@ -95,10 +95,10 @@ class ApiClient
      */
     public function log(array $entry)
     {
-        $result = $this->getHttpClient()->post($this->logUrl, $entry);
+        $result = $this->getHttpClient()->post("{$this->baseLogUrl}/log", $entry);
 
         if (!$result) {
-            error_log("Error while logging to Http endpoint: {$this->logUrl}");
+            error_log("Error while logging to Http endpoint: {$this->baseLogUrl}/log");
         }
     }
 

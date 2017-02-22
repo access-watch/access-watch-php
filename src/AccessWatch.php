@@ -38,7 +38,7 @@ class AccessWatch extends Bouncer
     {
         if (empty($options['apiClient'])) {
             // Filter Api Client options
-            $apiClientKeys = array('baseUrl', 'logUrl', 'apiKey', 'siteUrl', 'httpClient');
+            $apiClientKeys = array('baseUrl', 'baseLogUrl', 'apiKey', 'siteUrl', 'httpClient');
             $apiClientOptions = array_intersect_key($options, array_flip($apiClientKeys));
             $options['apiClient'] = new \AccessWatch\Api\ApiClient($apiClientOptions);
         }

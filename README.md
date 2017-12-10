@@ -47,7 +47,8 @@ $memcache = new Memcache();
 $memcache->addServer('localhost');
 
 $accessWatch = new AccessWatch(array(
-  'cache' => \Bouncer\Cache\Memcache($memcache)
+  'apiKey' => 'ACCESS_WATCH_API_KEY_HERE',
+  'cache' => new \Bouncer\Cache\Memcache($memcache)
 ));
 
 $accessWatch->start();
